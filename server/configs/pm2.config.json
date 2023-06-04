@@ -1,0 +1,22 @@
+{
+  "apps": [
+    {
+      "name": "app1",
+      "cwd": "C:/Users/Yujung/Desktop/MyDrawIO_React",
+      "script": "serve",
+      "args": [
+        "build",
+        "8080"
+      ]
+    },
+    {
+      "name": "app2",
+      "cwd": "C:/Users/Yujung/Desktop/MyDrawIO_React",
+      "script": "serve",
+      "args": [
+        "build",
+        "8081"
+      ]
+    }
+  ]
+}
