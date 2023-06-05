@@ -2,15 +2,30 @@ import { Table, Button, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { GetServerList } from "./protocol/get/GetServerList";
+import PostSum from "./protocol/post/PostSum";
 const SERVER = "http://192.168.199.158:3001";
 
 function App() {
   const [data, setData] = useState();
+  const [num1, setNum1] = useState<number>();
+  const [num2, setNum2] = useState<number>();
+  const [sum, setSum] = useState<number | undefined>();
+
+  const handleSum = (e: any) => {
+    e.preventDefault();
+    const sumApi = new PostSum();
+    sumApi.num1 = num1;
+    sumApi.num2 = num2;
+    sumApi.post().then((res) => setSum(res?.sum));
+  };
+
   useEffect(() => {
-    axios
-      .get(SERVER + "/server-list")
+    const api = new GetServerList();
+    api
+      .get()
       .then((res) => {
-        const newData = res?.data.map((d: any) => {
+        const newData = res.processList.map((d: any) => {
           return {
             key: d.name,
             name: d.name,
@@ -22,7 +37,7 @@ function App() {
             up_time: d.up_time,
           };
         });
-        setData(newData);
+        setData(newData as any);
       })
       .catch((err) => console.error(err))
       .finally(() => {});
@@ -85,6 +100,20 @@ function App() {
 
   return (
     <div className="App">
+      <form onSubmit={handleSum}>
+        <input
+          type="number"
+          value={num1}
+          onChange={(e) => setNum1(parseInt(e.target.value))}
+        />
+        <input
+          type="number"
+          value={num2}
+          onChange={(e) => setNum2(parseInt(e.target.value))}
+        />
+        <button>submit</button>
+      </form>
+      <div>{sum || "-"}</div>
       <Table dataSource={data} columns={columns} />
     </div>
   );
