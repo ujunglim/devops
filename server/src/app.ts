@@ -7,6 +7,9 @@ import { ErrorCode } from './protocol/common/ErrorCode';
 import GetSum, { GetSumResponse } from './protocol/get/GetSum';
 import PostSum from './protocol/post/PostSum';
 import bodyParser from 'body-parser';
+import { PostServerAction } from './protocol/post/PostServerAction';
+import pm2 from 'pm2';
+import { EServerAction } from './Enums';
 
 // SETTING
 const PORT = process.env.PORT || 3001;
@@ -45,6 +48,25 @@ app.post((new PostSum()).url(), async (req, res) => {
     errorcode: ErrorCode.success
   };
   res.status(200).json(response);
+})
+
+app.post((new PostServerAction().url()), async (req, res) => {
+  const {action, serverName} = req.body;
+  pm2[EServerAction[action] as EServerAction](serverName,
+    async function (err, apps) {
+      if (err) {
+        console.error(err);
+        return pm2.disconnect();
+      }
+
+      const response:GetServerListResponse = {
+        processList: await pm.getProcessList(),
+        errorcode: ErrorCode.success
+      };
+      res.status(200).json(response);
+    }
+  );
+
 })
 
 // INIT

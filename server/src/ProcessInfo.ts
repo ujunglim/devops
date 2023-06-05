@@ -6,8 +6,8 @@ export class ProcessInfo {
   pid: number;
   cpu: number; // %
   memory: number; // MB
-  up_time: number; // timestamp
-  port: string;
+  up_time: string ; // ISOString
+  port: number;
 
   constructor() {
     this.name = '';
@@ -15,7 +15,7 @@ export class ProcessInfo {
     this.pid = -1;
     this.memory = 0;
     this.cpu = 0;
-    this.up_time = 0;
-    this.port = "0";
+    this.up_time = '';
+    this.port = 0;
   }
 }

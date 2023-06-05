@@ -38,12 +38,12 @@ export default class ProcessManager {
     for (const config of this.processConfigList) {
       let processInfo: ProcessInfo = {
         name: config.name,
-        port: config.args[1],
+        port: parseInt(config.args[1]),
         status: EProcessStatus.stopped,
         pid: -1,
         cpu: 0,
         memory: 0,
-        up_time: 0,
+        up_time: '',
       }
 
       const processDesc = await this.getProcessDescription(config.name);
@@ -53,7 +53,7 @@ export default class ProcessManager {
         processInfo.pid = processDesc.pid || -1;
         processInfo.cpu = processDesc.monit?.cpu || 0;
         processInfo.memory = processDesc.monit?.memory || 0;
-        processInfo.up_time = processDesc.pm2_env?.pm_uptime || 0;
+        processInfo.up_time = new Date(processDesc.pm2_env?.pm_uptime).toISOString() || '';
       }
       processList.push(processInfo);
     }

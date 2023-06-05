@@ -20,6 +20,6 @@ export class ProcessInfo {
   pid: number = -1;
   cpu: number = 0;
   memory: number = 0;
-  up_time: number = 0; // timestamp
-  port: string = "0";
+  up_time: string = ''; // ISOString
+  port: number = 0;
 }
