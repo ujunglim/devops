@@ -15,7 +15,7 @@ import { EServerAction } from './Enums';
 const PORT = process.env.PORT || 3001;
 const app = express();
 const pm = new ProcessManager();
-const allowedOrigins = ["http://192.168.199.158:3000", "http://localhost:3000"];
+const allowedOrigins = ["http://192.168.45.59:3000", "http://localhost:3000"];
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

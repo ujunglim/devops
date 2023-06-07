@@ -1,0 +1,326 @@
+.layout {
+  min-height: 100vh;
+  .logo {
+      display: inline-block;
+      height: 48px;
+      padding: 12px 0 12px 90px;
+      font-size: 16px;
+      color: #595959;
+      text-align: center;
+      vertical-align: bottom;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 24px;
+      background: url('../assets/logo.svg') no-repeat 0 center;
+      background-size: 200px 48px;
+      width: 250px;
+
+      & > img {
+          transform: translateY(-6px);
+      }
+  }
+
+  .header {
+      background-color: #fff;
+      line-height: 48px;
+      height: 48px;
+      // border-bottom: 1px solid rgba(8, 15, 26, .1);
+      box-shadow: 0 2px 8px 0 rgba(7, 12, 20, .12);
+      z-index: 1002;
+      padding: 0 0 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .trigger {
+          padding-right: 24px;
+          font-size: 18px;
+          transition: color 300ms;
+      }
+  }
+
+  .body {
+      height: calc(100vh - 48px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+
+      .sider {
+          &::-webkit-scrollbar {
+              width: 8px;
+              height: 8px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+              background: #c1c1c1;
+              border-radius: 10px;
+
+              &:hover {
+                  background: #7d7d7d;
+              }
+          }
+      }
+
+      // 去掉menu 默认shadow
+      .acud-menu:not(.acud-menu-with-icon):not(.acud-menu-global):not(.acud-menu-sub.acud-menu-inline) {
+          box-shadow: none;
+      }
+
+      .acudicon.acud-menu-submenu-expand-icon {
+          height: 100%;
+      }
+  }
+
+  .content {
+      height: 100%;
+      overflow: auto;
+      position: relative;
+      width: min-content;
+      // background-color: #f6f7fa;
+      background-color: rgb(188, 215, 242);
+      padding: 2em;
+
+      // content header
+      .ant-page-header {
+          display: flex;
+      }
+
+      .ant-page-header-heading {
+          padding: 0 16px;
+      }
+
+      .ant-page-header-heading-title {
+          font-family: PingFangSC-Medium;
+          font-size: 16px;
+          color: #151b26;
+          line-height: 24px;
+          font-weight: 500;
+      }
+
+      // text按钮
+      .acud-btn-text {
+          color: #2468f2;
+
+          &:hover {
+              color: #4f90ff;
+          }
+
+          &:disabled {
+              color: #00000040;
+          }
+      }
+
+      // 表格操作按钮
+      .acud-btn-sm-text-limited {
+          min-width: 40px;
+      }
+  }
+}
+
+// text按钮
+.acud-btn-text {
+  color: #2468f2;
+  min-width: 40px;
+
+  &:hover {
+      color: #4f90ff;
+  }
+
+  &:disabled {
+      color: #00000040;
+  }
+}
+
+.ant-tabs-tabpane {
+  outline-style: none;
+}
+
+// 弹框 modal
+.ant-modal-mask {
+  z-index: 1002 !important;
+}
+
+.ant-modal-wrap {
+  z-index: 1002 !important;
+}
+
+.ant-modal-content {
+  border-radius: 4px;
+}
+
+.ant-modal-title {
+  font-family: PingFangSC-Medium;
+}
+
+.ant-modal-header {
+  padding: 24px;
+  padding-bottom: 16px;
+  border-bottom: none;
+  border-radius: 4px;
+}
+
+.ant-modal-body {
+  padding-top: 0;
+
+  .ant-input {
+      border-radius: 4px;
+  }
+
+  // modal里的 form
+  .ant-form-horizontal .ant-form-item-control {
+      left: 8px;
+  }
+}
+
+.ant-modal-footer,
+.ant-form {
+  padding: 24px;
+  padding-top: 8px;
+  border-top: none;
+
+  .ant-btn {
+      width: 72px;
+      border-radius: 4px;
+  }
+}
+
+// 名单管理批量导入
+.index-module-footer-btn-wrap-8ad35 .ant-btn {
+  width: 72px;
+  border-radius: 4px;
+}
+
+.ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger),
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn + .ant-btn {
+  margin-left: 16px;
+}
+
+.ant-form-item-label > label {
+  left: 10px;
+}
+
+.ant-modal-confirm-btns {
+  .ant-btn {
+      width: 72px;
+      border-radius: 4px;
+  }
+}
+
+.acud-popover-inner-content {
+  max-width: 320px;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+
+  // 舆情统计 标签
+  p {
+      margin: 0 8px 8px 0;
+  }
+}
+
+.acud-modal-root {
+  .acud-modal-mask,
+  .acud-modal-wrap {
+      z-index: 1002;
+  }
+
+  .acud-modal-sm > .acud-modal-content {
+      width: 100%;
+      height: 100%;
+  }
+
+  .acud-modal-content {
+      height: auto;
+
+      .ant-form {
+          max-height: 418px;
+          overflow-y: auto;
+      }
+  }
+
+  // table scroll
+  .acud-table-body {
+      overflow-y: auto !important;
+  }
+
+  .acud-modal-body {
+      overflow-y: unset; // 0.0.67 auto
+      ::-webkit-scrollbar {
+          -webkit-appearance: none;
+          width: 8px;
+          height: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+          border-radius: 4px;
+          background-color: #cecfd1;
+          -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+
+          &:hover {
+              background: #7d7d7d;
+          }
+      }
+
+      .ant-form {
+          padding: 0;
+      }
+  }
+
+  .acud-table-pagination.acud-pagination {
+      margin-bottom: 0;
+  }
+
+  // aa-mixin
+  .fsu-table {
+      min-height: unset;
+  }
+
+  // text按钮
+  .acud-btn-text {
+      color: #2468f2;
+
+      &:hover {
+          color: #4f90ff;
+      }
+
+      &:disabled {
+          color: #00000040;
+      }
+  }
+
+  .acud-btn-sm-text-limited {
+      min-width: 40px;
+  }
+
+  // 弹框按钮
+  .acud-modal-footer {
+      .acud-btn,
+      .acud-btn-text-limited {
+          min-width: 72px !important;
+      }
+  }
+}
+
+.ant-spin-container {
+  height: 100%;
+}
+
+.ant-spin-nested-loading {
+  height: 100%;
+}
+
+.titleIcon {
+  margin-right: 0 !important;
+}
+
+// 全局占位符颜色
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+.acud-select-selection-placeholder,
+.ant-select-selection-placeholder {
+  color: #b8babf !important;
+}
+
+.acud-select-dropdown {
+  z-index: 9999;
+}

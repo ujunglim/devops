@@ -1,14 +1,14 @@
+import React from "react";
 import { Table, Button, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
-import "./App.css";
-import StatusTag from "./components/StatusTag";
-import { EProcessStatus, EServerAction } from "./protocol/common/Enums";
-import { GetServerList, ProcessInfo } from "./protocol/get/GetServerList";
-import { PostServerAction } from "./protocol/post/PostServerAction";
+import StatusTag from "../../components/StatusTag";
+import { EProcessStatus, EServerAction } from "../../protocol/common/Enums";
+import { GetServerList, ProcessInfo } from "../../protocol/get/GetServerList";
+import { PostServerAction } from "../../protocol/post/PostServerAction";
 import moment from "moment";
-import { DATE_FORMAT } from "./constants";
+import { DATE_FORMAT } from "../../constants";
 
-function App() {
+const ProcessList = () => {
   const [data, setData] = useState<ProcessInfo[]>();
   const [loading, setLoaidng] = useState<boolean>();
 
@@ -159,12 +159,7 @@ function App() {
       },
     },
   ];
+  return <Table dataSource={data} columns={columns} loading={loading} />;
+};
 
-  return (
-    <div className="App">
-      <Table dataSource={data} columns={columns} loading={loading} />
-    </div>
-  );
-}
-
-export default App;
+export default ProcessList;
