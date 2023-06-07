@@ -1,5 +1,5 @@
 import Debug from './Debug';
-import { ProcessConfig } from './ProcessIConfig';
+import { ProcessConfig } from './ProcessConfig';
 import { loadJson } from './utils/loadJson';
 import pm2, { ProcessDescription } from 'pm2';
 import { ProcessInfo } from './ProcessInfo';
@@ -52,7 +52,7 @@ export default class ProcessManager {
         processInfo.status = processDesc.pm2_env?.status as EProcessStatus|| EProcessStatus.stopped;
         processInfo.pid = processDesc.pid || -1;
         processInfo.cpu = processDesc.monit?.cpu || 0;
-        processInfo.memory = processDesc.monit?.memory || 0;
+        processInfo.memory = Number((processDesc.monit?.memory / 1024 / 1024).toFixed(2)) || 0;
         processInfo.up_time = new Date(processDesc.pm2_env?.pm_uptime).toISOString() || '';
       }
       processList.push(processInfo);

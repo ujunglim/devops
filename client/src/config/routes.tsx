@@ -9,6 +9,14 @@ const routes = [
     component: lazy(() => import("../modules/ProcessList")),
   },
   {
+    path: "/detail/:name",
+    name: "detail",
+    title: "",
+    exact: true,
+    hideInMenu: true,
+    component: lazy(() => import("../modules/ProcessDetail")),
+  },
+  {
     path: "/other",
     name: "other",
     title: "Other",

@@ -38,14 +38,12 @@ export const AppLayout: React.FC<{ children: any }> = ({ children }) => {
   };
 
   return (
-    <ProcessList />
-
-    // <Layout className={styles.layout}>
-    //   <Header />
-    //   <Layout className={styles.body}>
-    //     {/* <Sider menuConfig={getMenuList(routes)} />
-    //     <Layout.Content className={styles.content}>{children}</Layout.Content> */}
-    //   </Layout>
-    // </Layout>
+    <Layout className={styles.layout}>
+      <Header />
+      <Layout className={styles.body}>
+        <Sider menuConfig={getMenuList(routes)} />
+        <Layout.Content className={styles.content}>{children}</Layout.Content>
+      </Layout>
+    </Layout>
   );
 };

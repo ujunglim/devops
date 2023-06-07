@@ -2,13 +2,12 @@ import axios from 'axios';
 import { ErrorCode } from './ErrorCode';
 import ResponseBase from './ResponseBase';
 
-const SERVER = "http://192.168.45.59:3001";
+const SERVER = "http://10.223.43.93:3001";
 
 export default abstract class RequestBase<ResponseType extends ResponseBase> {
   abstract url(): string;
 
-  async get() : Promise<ResponseType> {
-    // TODO do loading animation
+  async get(): Promise<ResponseType> {
     const url = SERVER + this.url();
     
     return new Promise(async (resolve, reject) => {
@@ -25,14 +24,10 @@ export default abstract class RequestBase<ResponseType extends ResponseBase> {
         console.error(`[Http] Get ${url} failed!`)
         reject(e);
       }
-      finally {
-        // TODO stop loading animation
-      }
     })  
   }
 
-  async post() : Promise<ResponseType> {
-    // TODO do loading animation
+  async post(): Promise<ResponseType> {
     const url = SERVER + this.url();
     
     return new Promise(async (resolve, reject) => {
@@ -48,9 +43,6 @@ export default abstract class RequestBase<ResponseType extends ResponseBase> {
       catch(e) {
         console.error(`[Http] Post ${url} failed!`)
         reject(e);
-      }
-      finally {
-        // TODO stop loading animation
       }
     })  
   }

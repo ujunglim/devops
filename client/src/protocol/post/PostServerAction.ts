@@ -8,7 +8,7 @@ export class PostServerAction extends RequestBase<ResponseServerAction> {
     return "/server/action"
   }
 
-  action : EServerAction | undefined;
+  action: EServerAction | undefined;
   serverName: string | undefined;
 }
 

@@ -63,11 +63,11 @@
       }
 
       // 去掉menu 默认shadow
-      .acud-menu:not(.acud-menu-with-icon):not(.acud-menu-global):not(.acud-menu-sub.acud-menu-inline) {
+      .antd-menu:not(.antd-menu-with-icon):not(.antd-menu-global):not(.antd-menu-sub.antd-menu-inline) {
           box-shadow: none;
       }
 
-      .acudicon.acud-menu-submenu-expand-icon {
+      .antdicon.antd-menu-submenu-expand-icon {
           height: 100%;
       }
   }
@@ -77,8 +77,7 @@
       overflow: auto;
       position: relative;
       width: min-content;
-      // background-color: #f6f7fa;
-      background-color: rgb(188, 215, 242);
+      background-color: #f6f7fa;
       padding: 2em;
 
       // content header
@@ -99,7 +98,7 @@
       }
 
       // text按钮
-      .acud-btn-text {
+      .antd-btn-text {
           color: #2468f2;
 
           &:hover {
@@ -112,14 +111,14 @@
       }
 
       // 表格操作按钮
-      .acud-btn-sm-text-limited {
+      .antd-btn-sm-text-limited {
           min-width: 40px;
       }
   }
 }
 
 // text按钮
-.acud-btn-text {
+.antd-btn-text {
   color: #2468f2;
   min-width: 40px;
 
@@ -207,7 +206,7 @@
   }
 }
 
-.acud-popover-inner-content {
+.antd-popover-inner-content {
   max-width: 320px;
   overflow-y: auto;
   overflow-wrap: break-word;
@@ -218,18 +217,18 @@
   }
 }
 
-.acud-modal-root {
-  .acud-modal-mask,
-  .acud-modal-wrap {
+.antd-modal-root {
+  .antd-modal-mask,
+  .antd-modal-wrap {
       z-index: 1002;
   }
 
-  .acud-modal-sm > .acud-modal-content {
+  .antd-modal-sm > .antd-modal-content {
       width: 100%;
       height: 100%;
   }
 
-  .acud-modal-content {
+  .antd-modal-content {
       height: auto;
 
       .ant-form {
@@ -239,11 +238,11 @@
   }
 
   // table scroll
-  .acud-table-body {
+  .antd-table-body {
       overflow-y: auto !important;
   }
 
-  .acud-modal-body {
+  .antd-modal-body {
       overflow-y: unset; // 0.0.67 auto
       ::-webkit-scrollbar {
           -webkit-appearance: none;
@@ -266,7 +265,7 @@
       }
   }
 
-  .acud-table-pagination.acud-pagination {
+  .antd-table-pagination.antd-pagination {
       margin-bottom: 0;
   }
 
@@ -276,7 +275,7 @@
   }
 
   // text按钮
-  .acud-btn-text {
+  .antd-btn-text {
       color: #2468f2;
 
       &:hover {
@@ -288,14 +287,14 @@
       }
   }
 
-  .acud-btn-sm-text-limited {
+  .antd-btn-sm-text-limited {
       min-width: 40px;
   }
 
   // 弹框按钮
-  .acud-modal-footer {
-      .acud-btn,
-      .acud-btn-text-limited {
+  .antd-modal-footer {
+      .antd-btn,
+      .antd-btn-text-limited {
           min-width: 72px !important;
       }
   }
@@ -316,11 +315,11 @@
 // 全局占位符颜色
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder,
-.acud-select-selection-placeholder,
+.antd-select-selection-placeholder,
 .ant-select-selection-placeholder {
   color: #b8babf !important;
 }
 
-.acud-select-dropdown {
+.antd-select-dropdown {
   z-index: 9999;
 }

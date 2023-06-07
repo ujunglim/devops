@@ -7,10 +7,13 @@ import { GetServerList, ProcessInfo } from "../../protocol/get/GetServerList";
 import { PostServerAction } from "../../protocol/post/PostServerAction";
 import moment from "moment";
 import { DATE_FORMAT } from "../../constants";
+import { useHistory } from "react-router";
+import Card from "../../components/Card";
 
 const ProcessList = () => {
   const [data, setData] = useState<ProcessInfo[]>();
   const [loading, setLoaidng] = useState<boolean>();
+  const history = useHistory();
 
   useEffect(() => {
     fetchServerList();
@@ -64,12 +67,19 @@ const ProcessList = () => {
       .finally(() => setLoaidng(false));
   };
 
+  const handleDetail = (text: string) => {
+    history.push(`/detail/${text}`);
+  };
+
   const columns: any = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
       ellipsis: true,
+      render: (text: string) => (
+        <a onClick={() => handleDetail(text)}>{text}</a>
+      ),
     },
     {
       title: "Cpu",
@@ -159,7 +169,11 @@ const ProcessList = () => {
       },
     },
   ];
-  return <Table dataSource={data} columns={columns} loading={loading} />;
+  return (
+    <Card title="Server List">
+      <Table dataSource={data} columns={columns} loading={loading} />
+    </Card>
+  );
 };
 
 export default ProcessList;

@@ -19,7 +19,6 @@ const Sider: FC<any> = ({ menuConfig }) => {
 
   const handleClick = useCallback(
     (e: any) => {
-      console.log(e);
       const pathStr = `/${e.keyPath.reverse().join("/")}`;
       history.push(pathStr);
     },

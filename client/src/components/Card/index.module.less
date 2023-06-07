@@ -1,0 +1,72 @@
+.commonCardWrapper {
+  .title {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-size: 1.5em;
+      color: #151b26;
+      line-height: 24px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+  }
+
+  .icon {
+      margin-right: 10px;
+  }
+
+  :global {
+      .antd-card-selected {
+          box-shadow: none;
+          transition: none;
+      }
+
+      .antd-card {
+          border: 0;
+          padding: 1px 24px;
+          height: 100%;
+
+          &:hover,
+          &:focus,
+          &:active {
+              box-shadow: none;
+          }
+
+          .antd-card-head {
+              margin-bottom: 16px;
+              margin-top: 23px;
+              padding: 0;
+          }
+
+          .antd-card-body {
+              margin-top: 0;
+              padding: 0;
+              margin-bottom: 23px;
+              overflow: inherit;
+          }
+
+          .antd-card-head-title {
+              padding-top: 0;
+          }
+
+          .antd-card-head-extra {
+              padding-top: 0;
+          }
+      }
+
+      .ant-card-head {
+          line-height: 24px;
+          margin: 0;
+      }
+
+      .ant-card-body {
+          padding-top: 0;
+      }
+
+      .antd-btn-text {
+          color: #2468f2;
+      }
+
+      .antd-btn-text[disabled] {
+          color: #b8babf;
+      }
+  }
+}
