@@ -10,12 +10,13 @@ import pm2 from 'pm2';
 import { EServerAction } from './Enums';
 import fs from 'fs';
 import { PostProcessDetail } from './protocol/post/PostProcessDetail';
+import { PostLog } from './protocol/post/PostLog';
 
 // SETTING
 const PORT = process.env.PORT || 3001;
 const app = express();
 const pm = new ProcessManager();
-const allowedOrigins = ["http://192.168.45.59:3000", "http://localhost:3000"];
+const allowedOrigins = ["http://192.168.109.15:3000", "http://localhost:3000"];
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -32,6 +33,15 @@ app.use(
     },
   })
 );
+
+// get local server ip
+app.get('/ip', async (req, res) => {
+  const ip = req.socket.remoteAddress;
+  res.status(200).json({
+    ip: ip?.split('::ffff:')[1] + ':' + PORT,
+    errorcode: ErrorCode.success
+  })
+})
 
 app.get((new GetServerList()).url(), async (req, res) => {
   const response:GetServerListResponse = {
@@ -63,6 +73,7 @@ app.post((new PostServerAction().url()), async (req, res) => {
 app.post((new PostProcessDetail().url()), (req, res) => {
   const {name} = req.body;
 
+  // memory
   fs.readFile('data.json', 'utf8', (err, data) => {
     if (err) {
       console.log(err);
@@ -76,6 +87,23 @@ app.post((new PostProcessDetail().url()), (req, res) => {
   })
 })
 
+app.post((new PostLog()).url(), (req, res) => {
+  const {name} = req.body;
+  // log
+  const logFilePath = 'C://Users//Yujung//.pm2//logs//serve-out.log';
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading log file:', err);
+      return;
+    }
+    res.status(200).json({
+      data: data,
+      errorcode: ErrorCode.success
+    });
+  })
+})
+
 async function updateMemoryData () {
   const serverList = pm.processConfigList.map(e => e.name);
 
@@ -83,23 +111,23 @@ async function updateMemoryData () {
     if (err){
       console.log(err);
     } else {
-      const oldData = JSON.parse(data);
+      const memoryData = JSON.parse(data) || {};
 
       serverList.forEach(async (serverName) => {
         const serverData = await pm.getProcessDescription(serverName);
-        const newMemory = Number((serverData?.monit?.memory / 1024 / 1024).toFixed(2));
-        if (oldData[serverName]) {
-          oldData[serverName].push(newMemory);
+        const newMemory = Number(((serverData?.monit?.memory || 0) / 1024 / 1024).toFixed(2));
+        if (memoryData[serverName]) {
+          memoryData[serverName].push(newMemory);
           // max data length is 10
-          if (oldData[serverName].length > 10) {
-            oldData[serverName].shift();
+          if (memoryData[serverName].length > 10) {
+            memoryData[serverName].shift();
           }
         } else {
-          oldData[serverName] = [newMemory];
+          memoryData[serverName] = [newMemory];
         }
         ///// TODO
-        if (Object.keys(oldData).length === serverList.length) {
-          fs.writeFile('data.json', JSON.stringify(oldData), 'utf8', () => console.log('Finished writing'))
+        if (Object.keys(memoryData).length === serverList.length) {
+          fs.writeFileSync('data.json', JSON.stringify(memoryData), 'utf8')
         }
       })
   }});
@@ -110,7 +138,7 @@ async function init () {
   await pm.loadProcessConfigJSON('configs/pm2.config.json');
 
   setInterval(() => {
-    updateMemoryData();
+    updateMemoryData(); // graph memory data
   }, 2000)
 
   app.listen(PORT, () => {

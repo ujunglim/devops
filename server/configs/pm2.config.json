@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "app1",
-      "cwd": "C:/Users/Yujung/Desktop/MyDrawIO_React",
+      "cwd": "D:/桌面/MyDrawIO_React",
       "script": "serve",
       "args": [
         "build",
@@ -11,7 +11,7 @@
     },
     {
       "name": "app2",
-      "cwd": "C:/Users/Yujung/Desktop/MyDrawIO_React",
+      "cwd": "D:/桌面/MyDrawIO_React",
       "script": "serve",
       "args": [
         "build",

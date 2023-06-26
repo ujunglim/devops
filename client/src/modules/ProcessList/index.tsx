@@ -9,11 +9,26 @@ import moment from "moment";
 import { DATE_FORMAT } from "../../constants";
 import { useHistory } from "react-router";
 import Card from "../../components/Card";
+import { GetIP } from "../../protocol/get/GetIP";
+import { setIP } from "../../store/slices/appSlice";
+import { useDispatch } from "react-redux";
 
 const ProcessList = () => {
   const [data, setData] = useState<ProcessInfo[]>();
   const [loading, setLoaidng] = useState<boolean>();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const api = new GetIP();
+    api
+      .get()
+      .then((res) => {
+        console.log(res.ip);
+        dispatch(setIP(res.ip));
+      })
+      .catch((err) => console.error(err));
+  });
 
   useEffect(() => {
     fetchServerList();

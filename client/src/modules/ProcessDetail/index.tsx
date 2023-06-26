@@ -1,17 +1,29 @@
-import { Spin } from "antd";
+import { Input, Spin } from "antd";
 import ReactEcharts from "echarts-for-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Card from "../../components/Card";
+import { PostLog } from "../../protocol/post/PostLog";
 import { PostProcessDetail } from "../../protocol/post/PostProcessDetail";
 
 const ProcessDetail = () => {
   const { name } = useParams<{ name: string }>();
   const [loading, setLoaidng] = useState<boolean>();
   const [data, setData] = useState<any>();
+  const [log, setLog] = useState<string>("");
 
   useEffect(() => {
     setLoaidng(true);
+    const logApi = new PostLog();
+    logApi.name = name;
+    logApi
+      .post()
+      .then((res) => {
+        console.log(res?.data);
+        setLog(res?.data);
+      })
+      .catch((err) => console.error(err));
+
     const api = new PostProcessDetail();
     api.name = name;
     api
@@ -145,6 +157,7 @@ const ProcessDetail = () => {
   return (
     <Card title={`"${name}" Memory Graph`}>
       <Spin spinning={loading}>
+        <Input.TextArea value={log} />
         <ReactEcharts option={option} />
       </Spin>
     </Card>
