@@ -9,7 +9,6 @@ export class PostProcessDetail extends RequestBase<ResponseProcessDetail>{
 }
 
 export class ResponseProcessDetail extends ResponseBase {
-  data = {
-    memory: []
-  }
+  date: string[] = [];
+  data: number[] = [];
 }

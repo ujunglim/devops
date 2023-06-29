@@ -1,42 +1,62 @@
 import { Input, Spin } from "antd";
 import ReactEcharts from "echarts-for-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Card from "../../components/Card";
-import { PostLog } from "../../protocol/post/PostLog";
+import { PostLog, logType } from "../../protocol/post/PostLog";
 import { PostProcessDetail } from "../../protocol/post/PostProcessDetail";
+import { DATE_FORMAT } from "../../constants";
+import moment from "moment";
 
 const ProcessDetail = () => {
   const { name } = useParams<{ name: string }>();
   const [loading, setLoaidng] = useState<boolean>();
   const [data, setData] = useState<any>();
-  const [log, setLog] = useState<string>("");
+  const [log, setLog] = useState<any>([]);
 
-  useEffect(() => {
-    setLoaidng(true);
-    const logApi = new PostLog();
-    logApi.name = name;
-    logApi
-      .post()
-      .then((res) => {
-        console.log(res?.data);
-        setLog(res?.data);
-      })
-      .catch((err) => console.error(err));
-
+  // fetch graph data
+  const fetchGraph = useCallback(() => {
     const api = new PostProcessDetail();
     api.name = name;
+    setLoaidng(true);
     api
       .post()
       .then((res) => {
         setData({
-          times: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          date: res.date,
           values: res?.data,
         });
       })
       .catch((err) => console.error(err))
       .finally(() => setLoaidng(false));
   }, [name]);
+
+  // fetch log data
+  const fetchLog = useCallback(() => {
+    const logApi = new PostLog();
+    logApi.name = name;
+    logApi
+      .post()
+      .then((res) => {
+        const newLog = res?.data.map((d: logType) => {
+          const formattedDate = moment(parseInt(d.date)).format(DATE_FORMAT);
+          return `${formattedDate} ${d.log}`;
+        });
+        setLog(newLog);
+      })
+      .catch((err) => console.error(err));
+  }, [name]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchGraph();
+    }, 2000);
+    fetchLog();
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [fetchGraph, fetchLog, name]);
 
   const option = {
     tooltip: {
@@ -73,7 +93,7 @@ const ProcessDetail = () => {
     },
     xAxis: {
       type: "category",
-      data: data?.times,
+      data: data?.date,
       axisLabel: {
         textStyle: {
           color: "rgba(8, 14, 26, 0.3)",
@@ -91,7 +111,7 @@ const ProcessDetail = () => {
     },
     yAxis: {
       type: "value",
-      min: 0,
+      // min: 30,
       axisLabel: {
         formatter: function (val: string) {
           return val + "GB";
@@ -157,8 +177,8 @@ const ProcessDetail = () => {
   return (
     <Card title={`"${name}" Memory Graph`}>
       <Spin spinning={loading}>
-        <Input.TextArea value={log} />
         <ReactEcharts option={option} />
+        <Input.TextArea value={log.join("\n")} style={{ height: 300 }} />
       </Spin>
     </Card>
   );

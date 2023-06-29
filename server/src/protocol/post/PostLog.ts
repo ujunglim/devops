@@ -9,5 +9,10 @@ export class PostLog extends RequestBase<ResponseLog>{
 }
 
 export class ResponseLog extends ResponseBase {
-  data = ''
+  data: logType[] = [];
+}
+
+export interface logType {
+  date: string,
+  log: string,
 }

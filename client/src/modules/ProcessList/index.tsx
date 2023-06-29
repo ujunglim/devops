@@ -1,4 +1,3 @@
-import React from "react";
 import { Table, Button, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import StatusTag from "../../components/StatusTag";

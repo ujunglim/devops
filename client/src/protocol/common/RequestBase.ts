@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ErrorCode } from './ErrorCode';
 import ResponseBase from './ResponseBase';
 
-const SERVER = "http://192.168.109.15:3001";
+const SERVER = "http://192.168.108.71:3001";
 
 export default abstract class RequestBase<ResponseType extends ResponseBase> {
   abstract url(): string;

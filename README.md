@@ -21,13 +21,27 @@ https://iq.opengenus.org/get-ip-addresses-using-javascript/
 
 ## Start Process
 
-pm2 start pm2.config.json
-
-그래프 data 구조
+```
+D:\桌面\devops\server\configs>pm2 start pm2.config.json
+```
 
 ```js
 {
-  date: number[]
+  date: string[],
+  data: {
+    app1: number[],
+    app2: number[],
+  }
 }
 
 ```
+
+# Add time to log file
+
+add following config to json
+
+```js
+"log_date_format": "YYYY-MM-DD HH:mm:ss"
+```
+
+# Merge out, error log and sort by time
