@@ -1,3 +1,4 @@
+import { logStatus } from '../../Enums';
 import RequestBase from '../common/RequestBase';
 import ResponseBase from '../common/ResponseBase';
 
@@ -15,4 +16,5 @@ export class ResponseLog extends ResponseBase {
 export interface logType {
   date: string,
   log: string,
+  type: logStatus,
 }

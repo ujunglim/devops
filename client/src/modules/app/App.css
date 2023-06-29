@@ -36,3 +36,6 @@
     transform: rotate(360deg);
   }
 }
+
+
+@import url('./theme.css');

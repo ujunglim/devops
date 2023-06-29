@@ -7,10 +7,10 @@ import { ErrorCode } from './protocol/common/ErrorCode';
 import bodyParser from 'body-parser';
 import { PostServerAction } from './protocol/post/PostServerAction';
 import pm2 from 'pm2';
-import { EServerAction } from './Enums';
+import { EServerAction, logStatus } from './Enums';
 import fs from 'fs';
 import { PostProcessDetail } from './protocol/post/PostProcessDetail';
-import { PostLog } from './protocol/post/PostLog';
+import { PostLog, logType } from './protocol/post/PostLog';
 import moment from 'moment';
 const MAX_DATA_COUNT = 10;
 
@@ -92,7 +92,7 @@ app.post((new PostProcessDetail().url()), (req, res) => {
 })
 
 // convert string logs ➡ arr logs
-const getLogArr: string[] = (log: any) => {
+const getLogArr = (log: string) => {
   const logArr = log.split('\n');
   // 마지막에 빈 문자열 제거
   if (logArr[logArr.length-1] === '') {
@@ -102,47 +102,46 @@ const getLogArr: string[] = (log: any) => {
 }
 
 const getLogs = (name: string) => {
-  const logs: any = {};
-  const logOutStr = fs.readFileSync(`C://Users//Yujung//.pm2//logs//${name}-out.log`, 'utf8');
-  const logErrStr = fs.readFileSync(`C://Users//Yujung//.pm2//logs//${name}-error.log`, 'utf8');
+  const result: any = [];
+  const logOutStr: string = fs.readFileSync(`C://Users//Yujung//.pm2//logs//${name}-out.log`, 'utf8');
+  const logErrStr: string = fs.readFileSync(`C://Users//Yujung//.pm2//logs//${name}-error.log`, 'utf8');
 
   const logOutArr = getLogArr(logOutStr);
   const logErrArr = getLogArr(logErrStr);
-  
-  // get out logs
+
   for (const logOutElement of logOutArr) {
-    const [date, out] = logOutElement.split(': ');
+    const [date, log] = logOutElement.split(': ');
     const isoString = moment(date).toISOString();
     const timestamp = new Date(isoString).getTime();
-    logs[timestamp] = out;
+    result.push({
+      date: timestamp,
+      log,
+      type: logStatus.info,
+    })
   }
-  // get error logs
+
   for (const logErrElement of logErrArr) {
-    const [date, out] = logErrElement.split(': ');
+    const [date, log] = logErrElement.split(': ');
     const isoString = moment(date).toISOString();
     const timestamp = new Date(isoString).getTime();
-    logs[timestamp] = out;
+    result.push({
+      date: timestamp,
+      log,
+      type: logStatus.error,
+    })
   }
-  return logs;
+  return result;
 }
 
 app.post((new PostLog()).url(), (req, res) => {
   const {name} = req.body;
-  const logs = getLogs(name);
+  const logs: logType[] = getLogs(name);
 
   // sort logs by timestamp
-  const newLogs: any = {};
-  Object.keys(logs).sort((a, b) => parseInt(a) - parseInt(b)).forEach(i => newLogs[i] = logs[i])
+  logs.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
-  const finalLog = [];
-  for (const [date, log] of Object.entries(newLogs)) {
-    finalLog.push({
-      date,
-      log,
-    });
-  }
   res.status(200).json({
-    data: finalLog,
+    data: logs,
     errorcode: ErrorCode.success
   })
 })

@@ -12,3 +12,8 @@ export enum EServerAction {
   stop = 'stop',
   restart = 'restart',
 }
+
+export enum logStatus {
+  error = 'error',
+  info = 'info',
+}

@@ -1,4 +1,4 @@
-import { Input, Spin } from "antd";
+import { Spin } from "antd";
 import ReactEcharts from "echarts-for-react";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -7,12 +7,15 @@ import { PostLog, logType } from "../../protocol/post/PostLog";
 import { PostProcessDetail } from "../../protocol/post/PostProcessDetail";
 import { DATE_FORMAT } from "../../constants";
 import moment from "moment";
+import "./index.css";
+import { logStatus } from "../../protocol/common/Enums";
+import classNames from "classnames";
 
 const ProcessDetail = () => {
   const { name } = useParams<{ name: string }>();
   const [loading, setLoaidng] = useState<boolean>();
   const [data, setData] = useState<any>();
-  const [log, setLog] = useState<any>([]);
+  const [logs, setLogs] = useState<logType[]>([]);
 
   // fetch graph data
   const fetchGraph = useCallback(() => {
@@ -38,11 +41,11 @@ const ProcessDetail = () => {
     logApi
       .post()
       .then((res) => {
-        const newLog = res?.data.map((d: logType) => {
-          const formattedDate = moment(parseInt(d.date)).format(DATE_FORMAT);
-          return `${formattedDate} ${d.log}`;
-        });
-        setLog(newLog);
+        const newData = res.data.map((d) => ({
+          ...d,
+          date: moment(d.date).format(DATE_FORMAT),
+        }));
+        setLogs(newData);
       })
       .catch((err) => console.error(err));
   }, [name]);
@@ -178,7 +181,15 @@ const ProcessDetail = () => {
     <Card title={`"${name}" Memory Graph`}>
       <Spin spinning={loading}>
         <ReactEcharts option={option} />
-        <Input.TextArea value={log.join("\n")} style={{ height: 300 }} />
+        {logs.map((log) => (
+          <p
+            className={classNames(
+              `${log.type === logStatus.error && "errorLog"}`
+            )}
+          >
+            {log.date} {log.log}
+          </p>
+        ))}
       </Spin>
     </Card>
   );
