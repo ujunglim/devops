@@ -3,7 +3,7 @@ import ResponseBase from '../common/ResponseBase';
 
 export class PostProcessDetail extends RequestBase<ResponseProcessDetail>{
   url(): string {
-    return `/server/detail`
+    return `/server/detail/graph`
   }
   name: string = '';
 }

@@ -3,7 +3,7 @@ import ResponseBase from '../common/ResponseBase';
 
 export class PostLogIn extends RequestBase<ReponseLogIn> {
   url(): string {
-    return '/login'
+    return '/auth/login'
   }
   loginEmail: string | undefined;
   password: string | undefined;

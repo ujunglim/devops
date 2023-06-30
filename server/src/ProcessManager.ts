@@ -3,7 +3,7 @@ import { ProcessConfig } from './ProcessConfig';
 import { loadJson } from './utils/loadJson';
 import pm2, { ProcessDescription } from 'pm2';
 import { ProcessInfo } from './ProcessInfo';
-import { EProcessStatus } from './Enums';
+import { EProcessStatus } from './protocol/common/Enums';
 
 export default class ProcessManager {
   processConfigList: ProcessConfig[];

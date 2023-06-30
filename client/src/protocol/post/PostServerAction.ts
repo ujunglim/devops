@@ -5,7 +5,7 @@ import { ProcessInfo } from '../get/GetServerList';
 
 export class PostServerAction extends RequestBase<ResponseServerAction> {
   url(): string {
-    return "/server/action"
+    return "/server"
   }
 
   action: EServerAction | undefined;
