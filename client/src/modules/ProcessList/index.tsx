@@ -1,5 +1,5 @@
-import { Table, Button, Space, Tooltip } from "antd";
-import { useEffect, useState } from "react";
+import { Table, Button, Space, Tooltip, Modal } from "antd";
+import { useCallback, useEffect, useState } from "react";
 import StatusTag from "../../components/StatusTag";
 import { EProcessStatus, EServerAction } from "../../protocol/common/Enums";
 import { GetServerList, ProcessInfo } from "../../protocol/get/GetServerList";
@@ -11,10 +11,12 @@ import Card from "../../components/Card";
 import { GetIP } from "../../protocol/get/GetIP";
 import { setIP } from "../../store/slices/appSlice";
 import { useDispatch } from "react-redux";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const ProcessList = () => {
   const [data, setData] = useState<ProcessInfo[]>();
   const [loading, setLoaidng] = useState<boolean>();
+  const [modal, contextHolder] = Modal.useModal();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -33,7 +35,7 @@ const ProcessList = () => {
     fetchServerList();
   }, []);
 
-  const fetchServerList = () => {
+  const fetchServerList = useCallback(() => {
     setLoaidng(true);
     const api = new GetServerList();
     api
@@ -53,13 +55,13 @@ const ProcessList = () => {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoaidng(false));
-  };
+  }, []);
 
-  const handleServerAction = async (record: any, action: EServerAction) => {
+  const handleServerAction = async (name: string, action: EServerAction) => {
     setLoaidng(true);
     const api = new PostServerAction();
+    api.serverName = name;
     api.action = action;
-    api.serverName = record?.key;
     api
       .post()
       .then((res) => {
@@ -81,9 +83,26 @@ const ProcessList = () => {
       .finally(() => setLoaidng(false));
   };
 
-  const handleDetail = (text: string) => {
-    history.push(`/detail/${text}`);
-  };
+  const handleDetail = useCallback(
+    (text: string) => {
+      history.push(`/detail/${text}`);
+    },
+    [history]
+  );
+
+  const handleModal = useCallback(
+    (record: any, action: EServerAction) => {
+      modal.confirm({
+        title: "Confirm Server Action",
+        icon: <ExclamationCircleOutlined />,
+        content: `Sure to ${action} ${record.key}?`,
+        okText: "Ok",
+        cancelText: "Cancel",
+        onOk: () => handleServerAction(record.key, action),
+      });
+    },
+    [modal]
+  );
 
   const columns: any = [
     {
@@ -158,7 +177,7 @@ const ProcessList = () => {
               }
             >
               <Button
-                onClick={() => handleServerAction(record, EServerAction.start)}
+                onClick={() => handleModal(record, EServerAction.start)}
                 disabled={record.status === EProcessStatus.online}
               >
                 Start
@@ -172,7 +191,7 @@ const ProcessList = () => {
               }
             >
               <Button
-                onClick={() => handleServerAction(record, EServerAction.stop)}
+                onClick={() => handleModal(record, EServerAction.stop)}
                 disabled={record.status === EProcessStatus.stopped}
               >
                 Stop
@@ -184,9 +203,12 @@ const ProcessList = () => {
     },
   ];
   return (
-    <Card title="Server List">
-      <Table dataSource={data} columns={columns} loading={loading} />
-    </Card>
+    <>
+      <Card title="Server List">
+        <Table dataSource={data} columns={columns} loading={loading} />
+      </Card>
+      {contextHolder}
+    </>
   );
 };
 

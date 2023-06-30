@@ -1,6 +1,7 @@
 import express from 'express';
 import Debug from './Debug';
 import ProcessManager from './ProcessManager';
+import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import { GetServerList, GetServerListResponse } from './protocol/get/GetServerList';
 import { ErrorCode } from './protocol/common/ErrorCode';
@@ -12,13 +13,14 @@ import fs from 'fs';
 import { PostProcessDetail } from './protocol/post/PostProcessDetail';
 import { PostLog, logType } from './protocol/post/PostLog';
 import moment from 'moment';
+import { PostLogIn } from './protocol/post/PostLogIn';
 const MAX_DATA_COUNT = 10;
 
 // SETTING
 const PORT = process.env.PORT || 3001;
 const app = express();
 const pm = new ProcessManager();
-const allowedOrigins = ["http://192.168.108.71:3000", "http://localhost:3000"];
+const allowedOrigins = ["http://192.168.108.11:3000", "http://localhost:3000"];
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -144,6 +146,22 @@ app.post((new PostLog()).url(), (req, res) => {
     data: logs,
     errorcode: ErrorCode.success
   })
+})
+
+app.post((new PostLogIn()).url(), (req, res) => {
+  try {
+    const {loginEmail, password, autoLogin} = req.body;
+    // validate
+    // if email, password matches, send jwt
+
+    res.status(200).json({
+      isLoggedIn: true,
+      errorcode: ErrorCode.success
+    })
+
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 })
 
 async function updateMemoryData () {

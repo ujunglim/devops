@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ErrorCode } from './ErrorCode';
 import ResponseBase from './ResponseBase';
 
-const SERVER = "http://192.168.108.71:3001";
+const SERVER = "http://192.168.108.11:3001";
 
 export default abstract class RequestBase<ResponseType extends ResponseBase> {
   abstract url(): string;
@@ -30,7 +30,6 @@ export default abstract class RequestBase<ResponseType extends ResponseBase> {
   async post(): Promise<ResponseType> {
     const url = SERVER + this.url();
 
-    
     return new Promise(async (resolve, reject) => {
       try {
         const res = (await axios.post(url, this))?.data;

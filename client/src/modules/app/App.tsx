@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.module.less";
 import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AppLayout } from "../../layout";

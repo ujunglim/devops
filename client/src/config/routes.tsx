@@ -2,6 +2,11 @@ import { lazy } from "react";
 
 const routes = [
   {
+    path: "/login",
+    exact: true,
+    component: lazy(() => import("../modules/Login")),
+  },
+  {
     path: "/",
     name: "",
     title: "Process List",

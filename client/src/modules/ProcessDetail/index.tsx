@@ -7,7 +7,7 @@ import { PostLog, logType } from "../../protocol/post/PostLog";
 import { PostProcessDetail } from "../../protocol/post/PostProcessDetail";
 import { DATE_FORMAT } from "../../constants";
 import moment from "moment";
-import "./index.css";
+import styles from "./index.module.less";
 import { logStatus } from "../../protocol/common/Enums";
 import classNames from "classnames";
 
@@ -184,7 +184,7 @@ const ProcessDetail = () => {
         {logs.map((log) => (
           <p
             className={classNames(
-              `${log.type === logStatus.error && "errorLog"}`
+              `${log.type === logStatus.error && styles.errorLog}`
             )}
           >
             {log.date} {log.log}

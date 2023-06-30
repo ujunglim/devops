@@ -1,4 +1,4 @@
-import { logStatus } from '../../Enums';
+import { logStatus } from '../common/Enums';
 import RequestBase from '../common/RequestBase';
 import ResponseBase from '../common/ResponseBase';
 
